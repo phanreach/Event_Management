@@ -5,83 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .content {
-      padding: 20px;
-      flex-grow: 1;
-    }
-    .card-header {
-      background-color: #202842;
-      color: white;
-    }
-    .dashboard-container {
-      margin-left: auto; 
-      margin-right: auto;
-      max-width: 800px; /* Adjust max width as needed */
-    }
-  </style>
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="../sidebar/style.css" rel="stylesheet">
 </head>
 <body>
-  <div class="d-flex">
+  <div class="wrapper">
     <!-- Sidebar -->
-    <?php require 'sidebar.php'; ?>
+    <?php include '../sidebar/sidebar.php'; ?>
 
     <!-- Main Content -->
-    <div class="content container mt-4">
-      <h2 class="mb-4 text-center">Admin Dashboard</h2>
+    <div class="main">
+      <div class="container my-5">
+        <h1>Admin Dashboard</h1>
+        <div class="row mt-5">
+          <?php
+            require '../config.php';
+            $query = "SELECT * FROM event";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            $events = $stmt->fetchAll();
 
-      <!-- Centered Cards -->
-      <div class="dashboard-container">
-        <div class="row justify-content-center me-6">
-          <!-- Overview of Upcoming Events -->
-          <div class="col-md-6">
+            foreach ($events as $event) {
+          ?>
+          <div class="col-xl-4 col-lg-6 col-md-12">
             <div class="card mb-4">
-              <div class="card-header bg-primary text-white">Upcoming Events</div>
+              <div class="card-header bg-primary text-white">
+                <?= $event['event_name']; ?>
+              </div>
               <div class="card-body">
-                <ul class="list-group">
-                  <li class="list-group-item">Conference on Web Development - Date: 2024-11-05</li>
-                  <li class="list-group-item">Marketing Seminar - Date: 2024-11-12</li>
-                  <li class="list-group-item">Business Growth Workshop - Date: 2024-12-01</li>
-                </ul>
+                <p><strong>Start Date:</strong> <?= $event['start_date']; ?></p>
+                <p><strong>End Date:</strong> <?= $event['end_date']; ?></p>
+                <p><strong>Start Time:</strong> <?= $event['start_time']; ?></p>
+                <p><strong>Location:</strong> <?= $event['location']; ?></p>
+                <p><strong>Description:</strong> <?= $event['description']; ?></p>
+                <p><strong>End Time:</strong> <?= $event['end_time']; ?></p>
+                <p><strong>Participant Number:</strong> <?= $event['participant_number']; ?></p>
+                <p><strong>Price:</strong> <?= $event['price']; ?></p>
               </div>
             </div>
           </div>
-
-          <!-- Summary of Registrations per Event -->
-          <div class="col-md-6">
-            <div class="card mb-4">
-              <div class="card-header bg-success text-white">Registrations Summary</div>
-              <div class="card-body">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Event</th>
-                      <th>Registrations</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Web Development</td>
-                      <td>150</td>
-                    </tr>
-                    <tr>
-                      <td>Marketing Seminar</td>
-                      <td>120</td>
-                    </tr>
-                    <tr>
-                      <td>Business Workshop</td>
-                      <td>200</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          <?php
+          }
+          ?>
         </div>
-      </div> <!-- End of dashboard-container -->
-    </div> <!-- End of content container -->
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../sidebar/script.js"></script>
 </body>
 </html>

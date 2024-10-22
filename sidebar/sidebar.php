@@ -5,20 +5,20 @@
             <i class="lni lni-grid-alt"></i>
         </button>
         <div class="sidebar-logo">
-            <a href="index.php">Todo List</a>
+            <a href="../admin/adminDashboard.php">Event Management</a>
         </div>
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="index.php" class="sidebar-link">
+            <a href="../admin/adminDashboard.php" class="sidebar-link">
                 <i class="lni lni-agenda"></i>
-                <span>Table View</span>
+                <span>Admin Dasboard</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="listView.php" class="sidebar-link">
+            <a href="../admin/createEvent.php" class="sidebar-link">
                 <i class="lni lni-layout"></i>
-                <span>List View</span>
+                <span>Create Event</span>
             </a>
         </li>
         <li class="sidebar-item">
