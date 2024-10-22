@@ -24,7 +24,7 @@
 <body>
   <div class="d-flex">
     <!-- Sidebar -->
-    <?php include 'sidebar.php'; ?>
+    <?php require 'sidebar.php'; ?>
 
     <!-- Main Content -->
     <div class="content container mt-4">
