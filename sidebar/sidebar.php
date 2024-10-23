@@ -22,7 +22,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="profileManagement.php" class="sidebar-link">
+            <a href="../auth/profileManagement.php" class="sidebar-link">
                 <i class="lni lni-user"></i>
                 <span>Profile</span>
             </a>
@@ -30,9 +30,9 @@
     </ul>
     <div class="sidebar-footer">
         <li class="sidebar-item">
-            <a href="login.php" class="sidebar-link">
-                <i class="lni lni-exit"></i>
-                <span>Logout</span>
+            <a href="../auth/logout.php" class="sidebar-link">
+            <i class="lni lni-exit"></i>
+            <span>Logout</span>
             </a>
         </li>
     </div>

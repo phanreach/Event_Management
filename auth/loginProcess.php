@@ -1,5 +1,5 @@
 <?php
-require_once('config.php');
+require_once('../config.php');
 
 session_start(); 
 
@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['role'] = $user['role']; 
     
             if ($user['role'] == 'admin') {
-                header('Location: adminDashboard.php'); 
+                header('Location: ../admin/adminDashboard.php'); 
             } else {
-                header('Location: userDashboard.php');
+                header('Location: ../userDashboard.php');
             }
             exit();
         } else {
