@@ -37,7 +37,7 @@
         <?php include '../sidebar/sidebar.php'; ?>
 
         <div class="main">
-            <div class="container my-5 col-6">
+            <div class="container my-5 col-lg-6 col-md-8 col-sm-10">
                 <h1>Create Event</h1>
                 <div class="card mt-3">
                     <div class="card-header">
