@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 05:39 AM
+-- Generation Time: Oct 23, 2024 at 08:10 AM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.12
 
@@ -37,25 +37,29 @@ CREATE TABLE `event` (
   `location` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `participant_number` int NOT NULL,
-  `price` int NOT NULL
+  `price` int NOT NULL,
+  `event_banner` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`event_id`, `event_name`, `start_date`, `end_date`, `start_time`, `end_time`, `location`, `description`, `participant_number`, `price`) VALUES
-(1, 'Tech Conference', '2024-11-01', '2024-11-03', '09:00:00', '17:00:00', 'Convention Center', 'A 3-day tech conference on AI and blockchain.', 500, 150),
-(2, 'Music Festival', '2024-12-15', '2024-12-17', '12:00:00', '22:00:00', 'City Park', 'A 3-day outdoor music festival with various artists.', 1000, 100),
-(3, 'Art Exhibition', '2024-11-20', '2024-11-25', '10:00:00', '18:00:00', 'Art Gallery', 'An exhibition showcasing contemporary art.', 200, 20),
-(4, 'Startup Pitch Night', '2024-10-30', '2024-10-30', '18:00:00', '21:00:00', 'Innovation Hub', 'Pitching event for new startups.', 100, 0),
-(5, 'Charity Run', '2024-12-05', '2024-12-05', '07:00:00', '11:00:00', 'City Stadium', 'A charity 10K run event to raise funds for education.', 300, 50),
-(6, 'Food Truck Festival', '2024-11-12', '2024-11-13', '11:00:00', '20:00:00', 'Downtown Plaza', 'A gathering of the city\'s best food trucks.', 600, 15),
-(7, 'Career Fair', '2024-12-01', '2024-12-01', '09:00:00', '16:00:00', 'University Hall', 'A fair for job seekers to connect with companies.', 800, 0),
-(8, 'Yoga Retreat', '2024-11-10', '2024-11-12', '06:00:00', '19:00:00', 'Mountain Resort', 'A weekend retreat focused on yoga and mindfulness.', 50, 300),
-(9, 'Comedy Night', '2024-10-29', '2024-10-29', '19:00:00', '22:00:00', 'Comedy Club', 'An evening of live stand-up comedy.', 100, 25),
-(10, 'Hackathon', '2024-11-17', '2024-11-18', '08:00:00', '18:00:00', 'Tech Hub', 'A 2-day hackathon for developers.', 150, 10),
-(11, 'Study Abroad', '2024-10-24', '2024-10-26', '03:25:00', '01:29:00', 'my house', 'hello world', 123, 10);
+INSERT INTO `event` (`event_id`, `event_name`, `start_date`, `end_date`, `start_time`, `end_time`, `location`, `description`, `participant_number`, `price`, `event_banner`, `created_at`) VALUES
+(1, 'Tech Conference', '2024-11-01', '2024-11-03', '09:00:00', '17:00:00', 'Convention Center', 'A 3-day tech conference on AI and blockchain.', 500, 150, '', '0000-00-00 00:00:00'),
+(2, 'Music Festival', '2024-12-15', '2024-12-17', '12:00:00', '22:00:00', 'City Park', 'A 3-day outdoor music festival with various artists.', 1000, 100, '', '0000-00-00 00:00:00'),
+(3, 'Art Exhibition', '2024-11-20', '2024-11-25', '10:00:00', '18:00:00', 'Art Gallery', 'An exhibition showcasing contemporary art.', 200, 20, '', '0000-00-00 00:00:00'),
+(4, 'Startup Pitch Night', '2024-10-30', '2024-10-30', '18:00:00', '21:00:00', 'Innovation Hub', 'Pitching event for new startups.', 100, 0, '', '0000-00-00 00:00:00'),
+(5, 'Charity Run', '2024-12-05', '2024-12-05', '07:00:00', '11:00:00', 'City Stadium', 'A charity 10K run event to raise funds for education.', 300, 50, '', '0000-00-00 00:00:00'),
+(6, 'Food Truck Festival', '2024-11-12', '2024-11-13', '11:00:00', '20:00:00', 'Downtown Plaza', 'A gathering of the city\'s best food trucks.', 600, 15, '', '0000-00-00 00:00:00'),
+(7, 'Career Fair', '2024-12-01', '2024-12-01', '09:00:00', '16:00:00', 'University Hall', 'A fair for job seekers to connect with companies.', 800, 0, '', '0000-00-00 00:00:00'),
+(8, 'Yoga Retreat', '2024-11-10', '2024-11-12', '06:00:00', '19:00:00', 'Mountain Resort', 'A weekend retreat focused on yoga and mindfulness.', 50, 300, '', '0000-00-00 00:00:00'),
+(9, 'Comedy Night', '2024-10-29', '2024-10-29', '19:00:00', '22:00:00', 'Comedy Club', 'An evening of live stand-up comedy.', 100, 25, '', '0000-00-00 00:00:00'),
+(10, 'Hackathon', '2024-11-17', '2024-11-18', '08:00:00', '18:00:00', 'Tech Hub', 'A 2-day hackathon for developers.', 150, 10, '', '0000-00-00 00:00:00'),
+(11, 'Study Abroad', '2024-10-24', '2024-10-26', '03:25:00', '01:29:00', 'my house', 'hello world', 123, 10, '', '0000-00-00 00:00:00'),
+(12, 'Party', '2024-10-24', '2024-10-25', '12:00:00', '10:00:00', 'here', 'hello', 123, 1, '7732020.jpg', '2024-10-22 23:47:19'),
+(13, 'sleep over', '2024-10-24', '2024-10-25', '01:00:00', '12:03:00', 'me', 'sds', 43, 0, '7731869.jpg', '2024-10-22 23:50:48');
 
 -- --------------------------------------------------------
 
@@ -127,7 +131,7 @@ ALTER TABLE `user_event`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`

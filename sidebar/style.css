@@ -18,7 +18,7 @@ li {
 .h1 {
     font-weight: 600;
     font-size: 1.5rem;
-    color:green;
+    color: green;
 }
 
 body {
@@ -44,14 +44,14 @@ body {
     min-width: 70px;
     z-index: 1000;
     transition: all .25s ease-in-out;
-    background-color: #0e2238;
+    background-color: #4b4b4b; /* Updated background to gray */
     display: flex;
     flex-direction: column;
 }
 
 #sidebar.expand {
     width: 340px;
-    min-width: 260px;
+    min-width: 300px;
 }
 
 .toggle-btn {
@@ -63,7 +63,7 @@ body {
 
 .toggle-btn i {
     font-size: 1.5rem;
-    color: #FFF;
+    color: #FFF; /* Keep icon white for good contrast */
 }
 
 .sidebar-logo {
@@ -88,7 +88,7 @@ body {
 
 a.sidebar-link {
     padding: .625rem 1.625rem;
-    color: #FFF;
+    color: #FFF; /* Keep text white for contrast */
     display: block;
     font-size: 0.9rem;
     white-space: nowrap;
@@ -101,8 +101,8 @@ a.sidebar-link {
 }
 
 a.sidebar-link:hover {
-    background-color: rgba(255, 255, 255, .075);
-    border-left: 3px solid #3b7ddd;
+    background-color: rgba(255, 255, 255, .075); /* Slight white hover effect */
+    border-left: 3px solid #a6a6a6; /* Light gray for hover border */
 }
 
 .sidebar-item {
@@ -113,7 +113,7 @@ a.sidebar-link:hover {
     position: absolute;
     top: 0;
     left: 70px;
-    background-color: #0e2238;
+    background-color: #4b4b4b; /* Keep dropdown the same gray as sidebar */
     padding: 0;
     min-width: 15rem;
     display: none;

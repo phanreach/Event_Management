@@ -11,12 +11,25 @@
         $description = trim($_POST['description']);
         $participantNumber = trim($_POST['participantNumber']);
         $price = trim($_POST['price']);
-        // $eventBanner = trim($_POST['eventBanner']);
+        $eventBanner = $_FILES['eventBanner']['name'];
+        $tmp = $_FILES['eventBanner']['tmp_name'];
+        $uploadDir = '../uploads/eventBanner';
+        $createAt = date('Y-m-d H:i:s');
 
-        $query = "  INSERT INTO `event`(`event_name`, `start_date`, `end_date`, `start_time`, `end_time`, `location`, `description`, `participant_number`, `price`)
-                    VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "  INSERT INTO event (event_name, start_date, end_date, start_time, end_time, location, description, participant_number, price, event_banner, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
-        $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price]);
+        $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price, $eventBanner, $createAt]);
+
+        if ($_FILES['eventBanner']['error'] === UPLOAD_ERR_OK) {
+            if (move_uploaded_file($tmp, $uploadDir . $eventBanner)) {
+                $_SESSION['success'] = "Event created successfully!";
+            } else {
+                $_SESSION['error'] = "Failed to upload event banner.";
+            }
+        } else {
+            $_SESSION['error'] = "Error during file upload. Code: " . $_FILES['eventBanner']['error'];
+        }        
     }
    
 ?>
@@ -38,13 +51,22 @@
 
         <div class="main">
             <div class="container my-5 col-lg-6 col-md-8 col-sm-10">
+                <?php
+                    if (isset($_SESSION['success'])) {
+                        echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+                        unset($_SESSION['success']);
+                    } else if (isset($_SESSION['error'])) {
+                        echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+                        unset($_SESSION['error']);
+                    }
+                ?>
                 <h1>Create Event</h1>
                 <div class="card mt-3">
                     <div class="card-header">
                         <h3 class="mb-0">Event Details</h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="createEvent.php" class="mb-0">
+                        <form method="POST" action="createEvent.php" enctype="multipart/form-data" class="mb-0">
                             <div class="mb-3">
                                 <label for="eventName" class="form-label">Event Name</label>
                                 <input type="text" class="form-control" id="eventName" name="eventName" required>
@@ -81,10 +103,10 @@
                                 <label for="price" class="form-label">Price</label>
                                 <input type="number" class="form-control" id="price" name="price" required>
                             </div>
-                            <!-- <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="eventBanner" class="form-label">Event Banner</label>
                                 <input type="file" class="form-control" id="eventBanner" name="eventBanner" required>
-                            </div> -->
+                            </div>
                             <button type="submit" class="btn btn-primary">Create Event</button>
                         </form>
                     </div>
