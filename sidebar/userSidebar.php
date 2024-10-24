@@ -15,7 +15,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="" class="sidebar-link">
+            <a href="../event/myHistory.php" class="sidebar-link">
                 <i class="lni lni-list"></i>
                 <span>My History</span>
             </a>
