@@ -17,7 +17,7 @@ $params = [];
 $countSql = "SELECT * FROM event WHERE 1=1"; 
 
 if ($searchQuery) {
-    $countSql .= " AND event_name LIKE ?"; // Ensure 'event_name' is the correct column name
+    $countSql .= " AND event_name LIKE ?";
     $params[] = '%' . $searchQuery . '%';
 }
 
@@ -40,38 +40,12 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="../sidebar/style.css" rel="stylesheet">
-  <style>
-    .card {
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      margin-bottom: 30px;
-      transition: transform 0.3s ease;
-    }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    .LongText {
-      min-height: 48px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-   
-  </style>
+  <link href="../styles.css" rel="stylesheet">
 </head>
 
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
-    
     <?php
       if ($accountType == 'admin') {
         include '../sidebar/adminSidebar.php';
@@ -86,18 +60,18 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="d-flex justify-content-between align-items-center mb-5">
           <h1>Upcoming Events</h1>
           <div class="col-md-3">
-          <form method="GET" action="" class="mb-4"> <!-- action="" to keep on the same page -->
+            <form method="GET" action="" class="mb-4">
               <div class="input-group">
                 <input type="text" name="search_query" class="form-control" placeholder="Search for events..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
                 <button class="btn btn-primary" type="submit">Search</button>
               </div>
-          </form>         
-      </div>
+            </form>
+          </div>
         </div>
 
         <div class="row">
           <?php
-          if($events){
+          if ($events) {
             foreach ($events as $event) {
           ?>
             <div class="col-md-4">
@@ -116,7 +90,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                       <p><strong>Price:</strong> <?= htmlspecialchars($event['price']); ?></p>
                     </div>
                     <div class="col d-flex justify-content-end align-items-center">
-                    <i class="bi bi-person"></i> <?= htmlspecialchars($event['participant_number']); ?>
+                      <i class="bi bi-person"></i> <?= htmlspecialchars($event['participant_number']); ?>
                     </div>
                   </div>
                   <a href="event_details.php?id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
@@ -125,7 +99,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
           <?php
             }
-          } else{
+          } else {
             echo "<p>No events found matching your search.</p>";
           }
           ?>

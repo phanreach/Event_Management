@@ -33,7 +33,7 @@ $available_slot = $participant_number - $registration;
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="../userSidebar/style.css" rel="stylesheet">
+    <link href="../sidebar/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
@@ -105,7 +105,7 @@ $available_slot = $participant_number - $registration;
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../userSidebar/script.js"></script>
+    <script src="../sidebar/script.js"></script>
 
     <script>
 document.getElementById('register-btn').addEventListener('click', function() {
