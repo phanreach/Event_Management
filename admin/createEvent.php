@@ -2,6 +2,11 @@
     require '../config.php';
     session_start();
 
+    if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+        header('Location: ../auth/login.php');
+        exit();
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $eventName = trim($_POST['eventName']);
         $startDate = trim($_POST['startDate']);
@@ -45,11 +50,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="../adminSidebar/style.css" rel="stylesheet">
+    <link href="../sidebar/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
-        <?php include '../adminSidebar/sidebar.php'; ?>
+        <?php include '../sidebar/adminSidebar.php'; ?>
 
         <div class="main">
             <div class="container my-5 col-lg-6 col-md-8 col-sm-10">
@@ -118,6 +123,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../adminSidebar/script.js"></script>
+    <script src="../sidebar/script.js"></script>
 </body>
 </html>

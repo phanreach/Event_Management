@@ -1,28 +1,21 @@
-
 <aside id="sidebar" class="expand">
     <div class="d-flex">
         <button class="toggle-btn" type="button">
             <i class="lni lni-grid-alt"></i>
         </button>
         <div class="sidebar-logo">
-            <a href="../admin/adminDashboard.php">Event Management</a>
+            <a href="../event/browse_event.php">Event Management</a>
         </div>
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="../admin/adminDashboard.php" class="sidebar-link">
-                <i class="lni lni-agenda"></i>
-                <span>Admin Dasboard</span>
+            <a href="../event/browse_event.php" class="sidebar-link">
+                <i class="lni lni-calendar"></i>
+                <span>Browse Events</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="../admin/createEvent.php" class="sidebar-link">
-                <i class="lni lni-layout"></i>
-                <span>Create Event</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="../admin/myEvent.php" class="sidebar-link">
+            <a href="" class="sidebar-link">
                 <i class="lni lni-list"></i>
                 <span>My Events</span>
             </a>
@@ -37,8 +30,8 @@
     <div class="sidebar-footer">
         <li class="sidebar-item">
             <a href="../auth/logout.php" class="sidebar-link">
-            <i class="lni lni-exit"></i>
-            <span>Logout</span>
+                <i class="lni lni-exit"></i>
+                <span>Logout</span>
             </a>
         </li>
     </div>

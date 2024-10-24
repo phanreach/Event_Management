@@ -4,26 +4,26 @@
             <i class="lni lni-grid-alt"></i>
         </button>
         <div class="sidebar-logo">
-            <a href="userDashboard.php">Event Management</a>
+            <a href="../admin/adminDashboard.php">Event Management</a>
         </div>
     </div>
     <ul class="sidebar-nav">
         <li class="sidebar-item">
-            <a href="../event/userDashboard.php" class="sidebar-link">
-                <i class="lni lni-dashboard"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="" class="sidebar-link">
-                <i class="lni lni-calendar"></i>
+            <a href="../event/browse_event.php" class="sidebar-link">
+                <i class="lni lni-list"></i>
                 <span>Browse Events</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="" class="sidebar-link">
-                <i class="lni lni-list"></i>
-                <span>My Events</span>
+            <a href="../admin/adminDashboard.php" class="sidebar-link">
+                <i class="lni lni-agenda"></i>
+                <span>Admin Dasboard</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="../admin/createEvent.php" class="sidebar-link">
+                <i class="lni lni-layout"></i>
+                <span>Create Event</span>
             </a>
         </li>
         <li class="sidebar-item">

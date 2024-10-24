@@ -2,9 +2,9 @@
 require '../config.php';
 session_start();
 
-$userId = $_SESSION['id']; // Get the logged-in user's ID
+$userId = $_SESSION['id'];
 
-$query = "SELECT * FROM event WHERE user_id = ?"; // Assuming you have a user_id column
+$query = "SELECT * FROM event WHERE event_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$userId]);
 
@@ -19,12 +19,12 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="../adminSidebar/style.css" rel="stylesheet">
+  <link href="../sidebar/style.css" rel="stylesheet">
 
 </head>
 <body>
 <div class="wrapper">
-  <?php include '../adminSidebar/sidebar.php'  ?>
+  <?php include '../sidebar/adminSidebar.php'  ?>
     <div class="container my-5">
       <h1>Your Events</h1>
         <div class="row">
@@ -53,7 +53,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../adminSidebar/script.js"></script>
+<script src="../sidebar/adminScript.js"></script>
 
 </body>
 </html>

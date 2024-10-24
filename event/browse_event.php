@@ -1,5 +1,13 @@
 <?php
   require '../config.php';
+  session_start();
+
+  $userId = $_SESSION['id'];
+
+  $queryAccountType = "SELECT role FROM user WHERE id = ?";
+  $stmtAccountType = $conn->prepare($queryAccountType);
+  $stmtAccountType->execute([$userId]);
+  $accountType = $stmtAccountType->fetchColumn();
 
   $query = "SELECT * FROM event";
   $stmt = $conn->prepare($query);
@@ -18,7 +26,7 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="../userSidebar/style.css" rel="stylesheet">
+  <link href="../sidebar/style.css" rel="stylesheet">
   <style>
     .card {
       border-radius: 10px;
@@ -50,7 +58,14 @@
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
-    <?php include '../userSidebar/sidebar.php'; ?>
+    
+    <?php
+      if ($accountType == 'admin') {
+        include '../sidebar/adminSidebar.php';
+      } else {
+        include '../sidebar/userSidebar.php';
+      }
+    ?>
 
     <!-- Main Content -->
     <div class="main">
@@ -98,6 +113,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../userSidebar/script.js"></script>
+  <script src="../sidebar/script.js"></script>
 </body>
 </html>
