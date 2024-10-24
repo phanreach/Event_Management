@@ -1,5 +1,5 @@
 <?php
-  require 'config.php';
+  require '../config.php';
 
   $query = "SELECT * FROM event";
   $stmt = $conn->prepare($query);
@@ -18,7 +18,7 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- <link href="sidebar/style.css" rel="stylesheet"> -->
+  <link href="../userSidebar/style.css" rel="stylesheet">
   <style>
     .card {
       border-radius: 10px;
@@ -43,23 +43,14 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    /* .badge {
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      background-color: #ffc107;
-      color: #fff;
-    } */
-    /* .btn-group .btn {
-      margin-right: 5px;
-    } */
+   
   </style>
 </head>
 
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
-    <!-- <?php include 'sidebar/sidebar.php'; ?> -->
+    <?php include '../userSidebar/sidebar.php'; ?>
 
     <!-- Main Content -->
     <div class="main">
@@ -78,7 +69,7 @@
             <div class="col-md-4">
               <div class="card shadow-sm mb-3">
                 <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
-                              ? 'uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
+                              ? '../uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
                               : 'https://via.placeholder.com/400x200?text=Image+Not+Found' ?>" alt="Event Image">
                 <div class="p-4">
                   <h3 class="fw-bold text-primary mb-3"><?= htmlspecialchars($event['event_name']); ?></h3>
@@ -94,7 +85,7 @@
                     <i class="bi bi-person"></i> <?= htmlspecialchars($event['participant_number']); ?>
                     </div>
                   </div>
-                  <a href="user/event_details.php?id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
+                  <a href="event_details.php?id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
                 </div>
               </div>
             </div>
@@ -107,6 +98,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="sidebar/script.js"></script>
+  <script src="../userSidebar/script.js"></script>
 </body>
 </html>

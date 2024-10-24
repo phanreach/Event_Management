@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($user['role'] == 'admin') {
                 header('Location: ../admin/adminDashboard.php'); 
             } else {
-                header('Location: ../userDashboard.php');
+                header('Location: ../event/userDashboard.php');
             }
             exit();
         } else {
@@ -33,7 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
     } else {
-        echo "No user found with that email."; 
+        $_SESSION['error'] = 'Incorrect email or password!';
+        header('Location: login.php'); // Redirect back to login form
+        exit();
     }
     
 }

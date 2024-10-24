@@ -8,10 +8,20 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
-<body class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <style>
+        .form-group input, .form-group select {
+            border-radius: 10px;
+        }
 
-    <div class="card p-5 shadow-lg col-12 col-sm-8 col-md-6 col-lg-4">
+        .btn-warning {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center form-container" style="min-height:100vh">
+
+    <div class="card p-5 shadow-lg col-12 col-md-8 col-lg-6 col-xl-5 rounded-3">
         <?php
         session_start(); 
 
@@ -24,47 +34,40 @@
             <h1 class="text-center text-dark mb-4">Create an Account</h1>
             <p class="text-center text-muted mb-4">Please enter your information!</p>
 
-            <!-- Username -->
             <div class="form-group">
-                <input type="text" name="username" class="form-control mb-4" placeholder="Username" style="width: 70%; margin: 0 auto; border-radius:10px" required>
+                <input type="text" name="username" class="form-control mb-4" placeholder="Username" required>
             </div>
             
-            <!-- Email -->
             <div class="form-group">
-                <input type="email" name="email" class="form-control mb-4" placeholder="Email" style="width: 70%; margin: 0 auto; border-radius:10px" required>
+                <input type="email" name="email" class="form-control mb-4" placeholder="Email" required>
             </div>
             
-            <!-- Password -->
             <div class="form-group">
-                <input type="password" name="password" class="form-control mb-4" placeholder="Password" style="width: 70%; margin: 0 auto; border-radius:10px" required>
+                <input type="password" name="password" class="form-control mb-4" placeholder="Password" required>
             </div>
 
-            <!-- Confirm Password -->
             <div class="form-group">
-                <input type="password" name="confirm_password" class="form-control mb-4" placeholder="Confirm Password" style="width: 70%; margin: 0 auto; border-radius:10px" required>
+                <input type="password" name="confirm_password" class="form-control mb-4" placeholder="Confirm Password" required>
             </div>
-            <!-- role selected -->
-            <div class="form-group mb-4 d-flex justify-content-center align-items-center">
-                <select name="role" id="role" class="form-control" style="width: 70%; margin: 0 auto ; border-radius:10px" required>
+
+            <div class="form-group mb-4">
+                <select name="role" id="role" class="form-control" required>
                     <option value="" selected disabled>Select Role</option>
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </select>
             </div>
 
-            <!-- Submit Button -->
             <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-warning mb-3" style="border-radius:10px; width: 200px;">Register</button>
+                <button type="submit" class="btn btn-warning mb-3" style="width: 200px;">Register</button>
             </div>
 
-            <!-- Login Link -->
             <div class="text-center">
                 <a href="login.php" class="text-secondary">Already have an account?</a>
             </div>
         </form>
     </div>
-
-    <!-- Bootstrap JS and dependencies -->
+</div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -22,6 +22,12 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="../admin/myEvent.php" class="sidebar-link">
+                <i class="lni lni-layout"></i>
+                <span>My Events</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="../auth/profileManagement.php" class="sidebar-link">
                 <i class="lni lni-user"></i>
                 <span>Profile</span>
