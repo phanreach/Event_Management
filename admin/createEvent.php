@@ -16,28 +16,43 @@
         $description = trim($_POST['description']);
         $participantNumber = trim($_POST['participantNumber']);
         $price = trim($_POST['price']);
-        $eventBanner = $_FILES['eventBanner']['name'];
-        $tmp = $_FILES['eventBanner']['tmp_name'];
-        $uploadDir = '../uploads/eventBanner/';
         $createdAt = date('Y-m-d H:i:s');
         $registrationValue = 0;
         $availableSlot = $participantNumber;
         $creatorId = $_SESSION['id'];
 
-        if ($_FILES['eventBanner']['error'] === UPLOAD_ERR_OK) {
+        if ($_FILES['eventBanner']['error'] == UPLOAD_ERR_NO_FILE) {
+            $eventBanner = null;
+
+            $query = "INSERT INTO event (event_name, start_date, end_date, start_time, end_time, location, description, participant_number, price, event_banner, created_at, registration, available_slot, creator_id)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price, $eventBanner, $createdAt, $registrationValue, $availableSlot, $creatorId]);
+        
+            $_SESSION['success'] = "Event created successfully without a banner!";
+            
+        } else if ($_FILES['eventBanner']['error'] == 0) {
+
+            $tmp = $_FILES['eventBanner']['tmp_name'];
+            $uploadDir = '/path/to/upload/directory/';
+            $eventBanner = $_FILES['eventBanner']['name'];
+        
             if (move_uploaded_file($tmp, $uploadDir . basename($eventBanner))) {
+
                 $query = "INSERT INTO event (event_name, start_date, end_date, start_time, end_time, location, description, participant_number, price, event_banner, created_at, registration, available_slot, creator_id)
                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
                 $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price, $eventBanner, $createdAt, $registrationValue, $availableSlot, $creatorId]);
-
-                $_SESSION['success'] = "Event created successfully!";
+        
+                $_SESSION['success'] = "Event created successfully with a banner!";
             } else {
                 $_SESSION['error'] = "Failed to upload event banner.";
             }
+        
         } else {
             $_SESSION['error'] = "Error during file upload. Code: " . $_FILES['eventBanner']['error'];
         }
+        
     }
 ?>
 
@@ -66,7 +81,7 @@
                     } elseif (isset($_SESSION['error'])) {
                         echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
                         unset($_SESSION['error']);
-                        header('Location: adminDashboard.php');
+                        // header('Location: adminDashboard.php');
                     }
                 ?>
                 <h1>Create Event</h1>
