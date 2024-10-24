@@ -23,7 +23,7 @@
         </li>
         <li class="sidebar-item">
             <a href="../admin/myEvent.php" class="sidebar-link">
-                <i class="lni lni-layout"></i>
+                <i class="lni lni-list"></i>
                 <span>My Events</span>
             </a>
         </li>
