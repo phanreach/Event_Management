@@ -26,39 +26,11 @@
 
     <!-- Main Content -->
     <div class="main">
-      <div class="container my-3">
+      <div class="container my-5">
         <h1>Admin Dashboard</h1>
-        <div class="row mt-5">
-          <?php
-            require '../config.php';
-            $query = "SELECT * FROM event";
-            $stmt = $conn->prepare($query);
-            $stmt->execute();
-            $events = $stmt->fetchAll();
-
-            foreach ($events as $event) {
-          ?>
-          <div class="col-xl-4 col-lg-6 col-md-12">
-            <div class="card mb-4">
-              <div class="card-header bg-primary text-white">
-                <?= $event['event_name']; ?>
-              </div>
-              <div class="card-body">
-                <p><strong>Start Date:</strong> <?= $event['start_date']; ?></p>
-                <p><strong>End Date:</strong> <?= $event['end_date']; ?></p>
-                <p><strong>Start Time:</strong> <?= $event['start_time']; ?></p>
-                <p><strong>Location:</strong> <?= $event['location']; ?></p>
-                <p><strong>Description:</strong> <?= $event['description']; ?></p>
-                <p><strong>End Time:</strong> <?= $event['end_time']; ?></p>
-                <p><strong>Participant Number:</strong> <?= $event['participant_number']; ?></p>
-                <p><strong>Price:</strong> <?= $event['price']; ?></p>
-              </div>
-            </div>
+          <div class="table-responsive">
+            
           </div>
-          <?php
-          }
-          ?>
-        </div>
       </div>
     </div>
   </div>
