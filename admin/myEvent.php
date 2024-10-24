@@ -1,6 +1,10 @@
 <?php
 require '../config.php';
-session_start();
+
+if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+  header('Location: ../event/browse_event.php');
+  exit();
+}
 
 $userId = $_SESSION['id'];
 

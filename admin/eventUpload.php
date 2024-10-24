@@ -1,11 +1,8 @@
 <?php
     require('../config.php');
-    session_start();
-
-    $id = $_SESSION['id'];
 
     if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
-        header('Location: ../auth/login.php');
+        header('Location: ../event/browse_event.php');
         exit();
     }
 
