@@ -1,6 +1,34 @@
-// missing php logic to fetch and display user's registered events
+<?php
+require '../config.php';
+
+if (!isset($_SESSION['id'])) {
+  header("Location: login.php");
+  exit();
+}
+
+try {
+  // Define and sanitize the search query
+  $searchQuery = isset($_GET['search_query']) ? '%' . htmlspecialchars($_GET['search_query']) . '%' : '%';
+
+  $sql = "SELECT e.event_id, e.event_name, e.description, e.start_date, e.end_date, 
+  e.start_time, e.end_time, e.location, e.event_banner, e.price, 
+  e.participant_number
+  FROM event e
+  JOIN user_event u ON e.event_id = u.event_id
+  WHERE u.user_id = ? AND e.event_name LIKE ?";
 
 
+  $stmt = $conn->prepare($sql);
+  $stmt->execute([$_SESSION['id'], $searchQuery]);
+  $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!$events) {
+      $noEventsMessage = "No events found matching your search.";
+  }
+} catch (Exception $e) {
+  echo "Error fetching events: " . $e->getMessage();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,15 +69,7 @@
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
-    <?php
-
-      //missing declaration of $accountType
-      if ($accountType === 'admin') {
-        include '../sidebar/adminSidebar.php';
-      } else {
-        include '../sidebar/userSidebar.php';
-      }
-    ?>
+    <?php include '../sidebar/userSidebar.php'; ?>
 
     <!-- Main Content -->
     <div class="main">
@@ -59,7 +79,7 @@
           <div class="col-md-3">
           <form method="GET" action="" class="mb-4"> <!-- action="" to keep on the same page -->
               <div class="input-group">
-                <input type="text" name="search_query" class="form-control" placeholder="Search for events..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
+                <input type="text" name="search_query" class="form-control" placeholder="Search for events..." value="<?php echo htmlspecialchars(isset($_GET['search_query']) ? $_GET['search_query'] : ''); ?>" required>
                 <button class="btn btn-primary" type="submit">Search</button>
               </div>
           </form>
@@ -67,7 +87,10 @@
         </div>
             
         <div class="row">
-          
+        <?php
+          if ($events) {
+            foreach ($events as $event) {
+          ?>
                 <div class="col-md-4">
                   <div class="card shadow-sm mb-3">
                     <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
@@ -94,6 +117,12 @@
                     </div>
                   </div>
                 </div>
+                <?php
+            }
+          } else {
+            echo "<p>No events found matching your search.</p>";
+          }
+          ?>
         </div>
 
         <!-- Modal -->
@@ -130,7 +159,7 @@
     cancelModal.addEventListener('show.bs.modal', function (event) {
       var button = event.relatedTarget;
       var eventId = button.getAttribute('data-event-id');
-      var modalEventId = document.getElementById('modalEventId');
+      var modalEventId = cancelModal.querySelector('#modalEventId');
       modalEventId.value = eventId;
     });
   </script>

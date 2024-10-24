@@ -1,13 +1,14 @@
 <?php
 include '../config.php';  
-session_start();
 
 if (!isset($_SESSION['id'])) {
     header('Location: ../auth/login.php');
     exit();
 }
 
+
 if (isset($_POST['confirm-register']) && isset($_POST['event_id'])) {
+
     $name = htmlspecialchars(trim($_POST['name']));
     $slot_amount = intval($_POST['slot_amount']);
     $event_id = intval($_POST['event_id']);
@@ -25,7 +26,7 @@ if (isset($_POST['confirm-register']) && isset($_POST['event_id'])) {
         // Check if there are enough available slots
         if ($available_slot >= $slot_amount) {
             // Update registration
-            $stmt = $conn->prepare("UPDATE event SET registration = registration + ? , available_slot = participant_number - registration WHERE event_id = ?");
+            $stmt = $conn->prepare("UPDATE event SET registration = registration + ?, available_slot = participant_number - registration WHERE event_id = ?");
             if ($stmt->execute([$slot_amount, $event_id])) {
                 // Registration successful, redirect with success message
                 header('Location: event_details.php?id=' . $event_id . '&registration=success');

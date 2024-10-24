@@ -25,9 +25,16 @@
         <?php
         session_start(); 
 
+        // Display error message
         if (isset($_SESSION['error'])) {
-            echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error'] . '</div>';
+            echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_SESSION['error']) . '</div>';
             unset($_SESSION['error']); 
+        }
+
+        // Display success message if needed
+        if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']); 
         }
         ?>
         <form action="registerProcess.php" method="post" class="text-left">
@@ -68,6 +75,7 @@
         </form>
     </div>
 </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

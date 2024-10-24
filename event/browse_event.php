@@ -13,7 +13,7 @@ $searchQuery = isset($_GET['search_query']) ? htmlspecialchars(trim($_GET['searc
 $params = [];
 
 // Base SQL query
-$countSql = "SELECT * FROM event WHERE 1=1"; 
+$countSql = "SELECT * FROM event WHERE 1=1";
 
 if ($searchQuery) {
     $countSql .= " AND event_name LIKE ?";
@@ -93,7 +93,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                   </div>
                   <a href="event_details.php?event_id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
-                </div>
+                  </div>
               </div>
             </div>
           <?php

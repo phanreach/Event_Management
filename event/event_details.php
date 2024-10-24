@@ -1,12 +1,14 @@
 <?php
 include '../config.php';  
-session_start();
 
-if (isset($_GET['id'])) {
-    $event_id = intval($_GET['id']); 
+if (isset($_GET['event_id'])) {
+    $event_id = intval($_GET['event_id']);
+    // Continue with registration logic
 } else {
-    die('No event ID provided.');
+    die("No event ID provided.");
 }
+
+
 
 $stmt = $conn->prepare("SELECT * FROM event WHERE event_id = ?");
 $stmt->execute([$event_id]);
@@ -18,8 +20,8 @@ if (!$event) {
 }
 
 // Assuming you already fetched the event details in $event
-$participant_number = $event['participant_number'];
-$registration = $event['registration'];
+$participant_number = $event['participant_number'] ?? 0;
+$registration = $event['registration'] ?? 0;
 $available_slot = $participant_number - $registration;
 ?>
 
@@ -94,7 +96,7 @@ $available_slot = $participant_number - $registration;
                             <input type="number" name="slot_amount" placeholder="Slot Amount" class="form-control" min="1" required>
                         </div>
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
-                    </div>
+                        </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" name="confirm-register">Confirm</button>
