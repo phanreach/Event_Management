@@ -93,7 +93,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                       <i class="bi bi-person"></i> <?= htmlspecialchars($event['participant_number']); ?>
                     </div>
                   </div>
-                  <a href="event_details.php?id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
+                  <a href="event_details.php?event_id=<?php echo $event['event_id']; ?>" class="btn btn-primary">View Details</a>
                 </div>
               </div>
             </div>
