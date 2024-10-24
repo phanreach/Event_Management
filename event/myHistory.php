@@ -1,3 +1,6 @@
+// missing php logic to fetch and display user's registered events
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +42,8 @@
   <div class="wrapper">
     <!-- Sidebar -->
     <?php
+
+      //missing declaration of $accountType
       if ($accountType === 'admin') {
         include '../sidebar/adminSidebar.php';
       } else {
