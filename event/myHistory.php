@@ -10,7 +10,7 @@ try {
   // Define and sanitize the search query
   $searchQuery = isset($_GET['search_query']) ? '%' . htmlspecialchars($_GET['search_query']) . '%' : '%';
 
-  $sql = "SELECT e.event_id, e.event_name, e.description, e.start_date, e.end_date, 
+  $sql = "SELECT DISTINCT e.event_id, e.event_name, e.description, e.start_date, e.end_date, 
   e.start_time, e.end_time, e.location, e.event_banner, e.price, 
   e.participant_number
   FROM event e
@@ -111,7 +111,7 @@ try {
                         </div>
                       </div>
                       <!-- Button to trigger the modal -->
-                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" data-event-id="<?= $event['event_id']; ?>">
+                      <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" data-event-id="<?= $event['event_id']; ?>">
                         Cancel
                       </button>
                     </div>

@@ -9,43 +9,41 @@ if (!isset($_SESSION['id'])) {
 
 if (isset($_POST['confirm-register']) && isset($_POST['event_id'])) {
 
-    $name = htmlspecialchars(trim($_POST['name']));
     $slot_amount = intval($_POST['slot_amount']);
     $event_id = intval($_POST['event_id']);
 
-    // Fetch event details
     $stmt = $conn->prepare("SELECT participant_number, registration FROM event WHERE event_id = ?");
     $stmt->execute([$event_id]);
     $event = $stmt->fetch();
 
-    if ($event) {
-        $participant_number = $event['participant_number'];
-        $registration = $event['registration'];
-        $available_slot = $participant_number - $registration;
+    if (!$event) {
+        $_SESSION['error'] = "Event not found.";
+    }
 
-        // Check if there are enough available slots
-        if ($available_slot >= $slot_amount) {
-            // Update registration
-            $stmt = $conn->prepare("UPDATE event SET registration = registration + ?, available_slot = participant_number - registration WHERE event_id = ?");
-            if ($stmt->execute([$slot_amount, $event_id])) {
-                // Registration successful, redirect with success message
-                header('Location: event_details.php?id=' . $event_id . '&registration=success');
-                exit();
-            } else {
-                // Handle insertion error
-                header('Location: event_details.php?id=' . $event_id . '&registration=failure');
-                exit();
-            }
+    $participant_number = $event['participant_number'];
+    $registration = $event['registration'];
+    $available_slot = $participant_number - $registration;
+
+    if ($slot_amount > $available_slot) {
+        $_SESSION['error'] = "Not enough slots available.";
+    }
+
+    $created_at = date('Y-m-d H:i:s');
+    $stmt = $conn->prepare("INSERT INTO user_event (user_id, event_id, created_at) VALUES (?, ?, ?)");
+    $is_registered = $stmt->execute([$_SESSION['id'], $event_id, $created_at]);
+
+    if ($is_registered) {
+        $stmt = $conn->prepare("UPDATE event SET registration = registration + ?, available_slot = available_slot - ? WHERE event_id = ?");
+        $is_updated = $stmt->execute([$slot_amount, $slot_amount, $event_id]);
+
+        if ($is_updated) {
+            $_SESSION['success'] = "Registered successfully!";
+            header('Location: ../event/event_details.php?event_id=' . $event_id);
         } else {
-            // Not enough available slots
-            header('Location: event_details.php?id=' . $event_id . '&registration=failure');
-            exit();
+            $_SESSION['error'] = "Failed to update event registration.";
         }
     } else {
-        echo "Event not found.";
+        $_SESSION['error'] = "Failed to register for the event.";
     }
-} else {
-    // Handle case where form was not submitted properly
-    echo "Invalid request.";
 }
 ?>

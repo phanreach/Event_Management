@@ -19,10 +19,33 @@ if (!$event) {
     die('Event not found.');
 }
 
-// Assuming you already fetched the event details in $event
 $participant_number = $event['participant_number'] ?? 0;
 $registration = $event['registration'] ?? 0;
-$available_slot = $participant_number - $registration;
+if ($participant_number < $registration) {
+    $available_slot = 0;
+} else {
+    $available_slot = $participant_number - $registration;
+}
+
+$stmt = $conn->prepare("SELECT * FROM user_event WHERE user_id = ? AND event_id = ?");
+$stmt->execute([$_SESSION['id'], $event_id]);
+$user_event = $stmt->fetch();
+
+$isAvailable = false;
+if ($user_event) {
+    $isAvailable = true;
+    $_SESSION['error'] = "You have already registered for this event.";
+}
+
+if ($available_slot <= 0) {
+    $isAvailable = true;
+    $_SESSION['error'] = "No available slots for this event.";
+}
+
+$queryEventCreator = "SELECT username FROM user WHERE id = ?";
+$stmt = $conn->prepare($queryEventCreator);
+$stmt->execute([$event['creator_id']]);
+$eventCreatorName = $stmt->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -41,38 +64,55 @@ $available_slot = $participant_number - $registration;
     <div class="wrapper">
         <?php include '../sidebar/userSidebar.php'; ?>
         <div class="main">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1 class="display-4"><?php echo htmlspecialchars($event['event_name']); ?></h1>
+            <nav class="navbar bg-body-secondary shadow-sm">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="browse_event.php">
+                        <h2><i class="bi bi-chevron-left"></i></h2>
+                    </a>
+                </div>
+            </nav>
+            <!-- Display success or failure message -->
+            <div class="container mt-3">
+                 <?php if (isset($_SESSION['success'])): ?>
+                     <div class="alert alert-success"><?php echo $_SESSION['success']; ?></div>
+                     <?php unset($_SESSION['success']); ?>
+                 <?php elseif (isset($_SESSION['error'])): ?>
+                     <div class="alert alert-danger"><?php echo $_SESSION['error']; ?></div>
+                     <?php unset($_SESSION['error']); ?>
+                 <?php endif; ?>
             </div>
 
-            <!-- Display success or failure message -->
-            <?php if (isset($_GET['registration'])): ?>
-                <div class="alert alert-<?php echo $_GET['registration'] == 'success' ? 'success' : 'danger'; ?>" role="alert">
-                    <?php
-                    echo $_GET['registration'] == 'success' ? 'Your registration is successful!' : 'Registration failed. Not enough available slots.';
-                    ?>
-                </div>
-            <?php endif; ?>
-
             <!-- Event Details -->
-            <div class="container w-75">
-                <div class="card shadow-lg mb-5">
-                    <!-- Event Image -->
-                    <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
-                              ? '../uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
-                              : 'https://via.placeholder.com/400x200?text=Image+Not+Found' ?>"
-                           class="card-img-top img-fluid" alt="Event Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Event Details</h5>
-                        <ul class="list-group mb-4">
-                            <li class="list-group-item"><strong>Date:</strong> <?php echo date('F j, Y', strtotime($event['start_date'])); ?></li>
-                            <li class="list-group-item"><strong>Start Time:</strong> <?php echo date('g:i A', strtotime($event['start_time'])); ?></li>
-                            <li class="list-group-item"><strong>End Time:</strong> <?php echo date('g:i A', strtotime($event['end_time'])); ?></li>
-                            <li class="list-group-item"><strong>Location:</strong> <?php echo htmlspecialchars($event['location']); ?></li>
-                            <li class="list-group-item"><strong>Available Slots:</strong> <?= $available_slot > 0 ? $available_slot : 0 ?></li>
-                        </ul>
-                        <!-- Button to trigger the modal -->
-                        <button class="btn btn-primary" id="register-btn">Register</button>
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
+                                        ? '../uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
+                                        : 'https://via.placeholder.com/400x200?text=Image+Not+Found' ?>" 
+                                class="card-img" alt="Event Image">
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title text-primary fw-bold mb-3"><?= htmlspecialchars($event['event_name']) ?></h3>
+                                <p><i class="bi bi-person mx-2"></i>Create by: <?= $eventCreatorName ?></p>
+                                <p class="card-text"><?= htmlspecialchars($event['description']) ?></p>
+                                <p><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($event['location']) ?></p>  
+                                <p><i class="bi bi-tags"></i> <?= htmlspecialchars($event['price']) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><i class="bi bi-calendar-check"></i> <?= date('M j, Y', strtotime($event['start_date'])) . ' - ' . date('M j, Y', strtotime($event['end_date'])); ?></p>
+                                <p><i class="bi bi-hourglass-top"></i> <?= date('ga', strtotime($event['start_time'])) . ' - ' . date('ga', strtotime($event['end_time'])); ?></p>
+                                <p><i class="bi bi-person"></i> <?= $available_slot ?> slots available</p>
+                                <button class="btn btn-primary" id="register-btn" data-bs-toggle="modal" data-bs-target="#register-event"
+                                    <?= $isAvailable ? 'disabled' : '' ?>>
+                                    Register
+                                </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,13 +130,10 @@ $available_slot = $participant_number - $registration;
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <input type="text" name="name" placeholder="Name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
                             <input type="number" name="slot_amount" placeholder="Slot Amount" class="form-control" min="1" required>
                         </div>
                         <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
-                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" name="confirm-register">Confirm</button>
@@ -108,17 +145,6 @@ $available_slot = $participant_number - $registration;
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../sidebar/script.js"></script>
-
-    <script>
-document.getElementById('register-btn').addEventListener('click', function() {
-    <?php if (!isset($_SESSION['id'])): ?>
-        window.location.href = '../auth/login.php';
-    <?php else: ?>
-        var modal = new bootstrap.Modal(document.getElementById('register-event'));
-        modal.show();
-    <?php endif; ?>
-});
-</script>
 
 </body>
 </html>
