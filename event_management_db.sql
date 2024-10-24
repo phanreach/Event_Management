@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 04:37 PM
+-- Generation Time: Oct 24, 2024 at 09:00 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE `event` (
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
   `location` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `participant_number` int NOT NULL,
   `registration` int NOT NULL,
   `available_slot` int NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`event_id`, `creator_id`, `event_name`, `start_date`, `end_date`, `start_time`, `end_time`, `location`, `description`, `participant_number`, `registration`, `available_slot`, `price`, `event_banner`, `created_at`) VALUES
-(1, 8, 'Tech Conference', '2024-11-01', '2024-11-03', '09:00:00', '17:00:00', 'Convention Center', 'A 3-day tech conference on AI and blockchain.', 500, 8, 492, 150, NULL, '2024-10-24 07:08:15'),
+(1, 8, 'Tech Conference', '2024-11-01', '2024-11-03', '09:00:00', '17:00:00', 'Convention Center', 'A 3-day tech conference on AI and blockchain.', 500, 14, 486, 150, NULL, '2024-10-24 07:08:15'),
 (2, 8, 'Music Festival', '2024-12-15', '2024-12-17', '12:00:00', '22:00:00', 'City Park', 'A 3-day outdoor music festival with various artists.', 1000, 7, 4993, 100, NULL, '2024-10-24 07:08:15'),
 (3, 8, 'Art Exhibition', '2024-11-20', '2024-11-25', '10:00:00', '18:00:00', 'Art Gallery', 'An exhibition showcasing contemporary art.', 200, 0, 0, 20, NULL, '2024-10-24 07:08:15'),
 (4, 8, 'Startup Pitch Night', '2024-10-30', '2024-10-30', '18:00:00', '21:00:00', 'Innovation Hub', 'Pitching event for new startups.', 100, 2, 98, 0, NULL, '2024-10-24 07:08:15'),
@@ -62,7 +62,8 @@ INSERT INTO `event` (`event_id`, `creator_id`, `event_name`, `start_date`, `end_
 (10, 8, 'Hackathon', '2024-11-17', '2024-11-18', '08:00:00', '18:00:00', 'Tech Hub', 'A 2-day hackathon for developers.', 150, 0, 0, 10, NULL, '2024-10-24 07:08:15'),
 (11, 8, 'Study Abroad', '2024-10-24', '2024-10-26', '03:25:00', '01:29:00', 'my house', 'hello world', 123, 0, 0, 10, NULL, '2024-10-24 07:08:15'),
 (12, 8, 'khnom3.0', '2024-10-24', '2024-10-25', '06:15:00', '17:17:00', 'Aeon mall sen sok', 'Khnom3.0 is event talk about childhood traumatize', 100, 0, 0, 2, NULL, '2024-10-24 07:08:15'),
-(13, 8, 'night party', '2024-10-25', '2024-10-25', '19:15:00', '21:15:00', 'the water', 'celebrate birthday', 2, 2, 0, 20, '7732020.jpg', '2024-10-24 02:17:09');
+(13, 8, 'night party', '2024-10-25', '2024-10-25', '19:15:00', '21:15:00', 'the water', 'celebrate birthday', 2, 2, 0, 20, '7732020.jpg', '2024-10-24 02:17:09'),
+(14, 12, 'Coding Night', '2024-10-25', '2024-10-25', '00:00:00', '06:00:00', 'dormi', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n\r\nCurabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi.', 100, 0, 100, 0, '214962.jpg', '2024-10-24 12:01:36');
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,17 @@ INSERT INTO `user_event` (`user_event_id`, `user_id`, `event_id`, `created_at`) 
 (11, 8, 5, '0000-00-00 00:00:00'),
 (12, 8, 5, '0000-00-00 00:00:00'),
 (14, 8, 5, '0000-00-00 00:00:00'),
-(15, 8, 5, '0000-00-00 00:00:00');
+(15, 8, 5, '0000-00-00 00:00:00'),
+(38, 2, 14, '2024-10-01 03:00:00'),
+(39, 4, 14, '2024-10-02 04:30:00'),
+(40, 5, 14, '2024-10-03 05:45:00'),
+(41, 7, 14, '2024-10-04 07:15:00'),
+(42, 8, 14, '2024-10-05 02:00:00'),
+(43, 9, 14, '2024-10-06 09:20:00'),
+(44, 10, 14, '2024-10-07 01:30:00'),
+(45, 11, 14, '2024-10-08 12:00:00'),
+(46, 12, 14, '2024-10-09 08:45:00'),
+(47, 2, 14, '2024-10-10 10:10:00');
 
 --
 -- Indexes for dumped tables
@@ -161,7 +172,7 @@ ALTER TABLE `user_event`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -173,7 +184,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_event`
 --
 ALTER TABLE `user_event`
-  MODIFY `user_event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_event_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Constraints for dumped tables
