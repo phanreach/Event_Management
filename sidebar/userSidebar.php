@@ -17,7 +17,7 @@
         <li class="sidebar-item">
             <a href="" class="sidebar-link">
                 <i class="lni lni-list"></i>
-                <span>My Events</span>
+                <span>My History</span>
             </a>
         </li>
         <li class="sidebar-item">

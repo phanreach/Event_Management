@@ -1,19 +1,32 @@
 <?php
-  require '../config.php';
-  session_start();
+require '../config.php';
+session_start();
 
-  $userId = $_SESSION['id'];
+$userId = $_SESSION['id'];
 
-  $queryAccountType = "SELECT role FROM user WHERE id = ?";
-  $stmtAccountType = $conn->prepare($queryAccountType);
-  $stmtAccountType->execute([$userId]);
-  $accountType = $stmtAccountType->fetchColumn();
+$queryAccountType = "SELECT role FROM user WHERE id = ?";
+$stmtAccountType = $conn->prepare($queryAccountType);
+$stmtAccountType->execute([$userId]);
+$accountType = $stmtAccountType->fetchColumn();
 
-  $query = "SELECT * FROM event";
-  $stmt = $conn->prepare($query);
-  $stmt->execute();
-  $events = $stmt->fetchAll();
+// Initialize search query and parameters
+$searchQuery = isset($_GET['search_query']) ? htmlspecialchars(trim($_GET['search_query'])) : '';
+$params = [];
 
+// Base SQL query
+$countSql = "SELECT * FROM event WHERE 1=1"; 
+
+if ($searchQuery) {
+    $countSql .= " AND event_name LIKE ?"; // Ensure 'event_name' is the correct column name
+    $params[] = '%' . $searchQuery . '%';
+}
+
+// Prepare and execute the search query
+$stmt = $conn->prepare($countSql);
+$stmt->execute($params);
+
+// Fetch matching events
+$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -73,12 +86,18 @@
         <div class="d-flex justify-content-between align-items-center mb-5">
           <h1>Upcoming Events</h1>
           <div class="col-md-3">
-            <input type="text" name="search_query" class="form-control" placeholder="Search event..." value="<?php echo isset($_GET['search_query']) ? htmlspecialchars($_GET['search_query']) : ''; ?>">
-          </div>
+          <form method="GET" action="" class="mb-4"> <!-- action="" to keep on the same page -->
+              <div class="input-group">
+                <input type="text" name="search_query" class="form-control" placeholder="Search for events..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+          </form>         
+      </div>
         </div>
 
         <div class="row">
           <?php
+          if($events){
             foreach ($events as $event) {
           ?>
             <div class="col-md-4">
@@ -106,6 +125,9 @@
             </div>
           <?php
             }
+          } else{
+            echo "<p>No events found matching your search.</p>";
+          }
           ?>
         </div>
       </div>
