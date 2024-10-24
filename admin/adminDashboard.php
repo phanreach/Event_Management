@@ -5,7 +5,7 @@
     header('Location: ../event/browse_event.php');
     exit();
   }
-  $userId = 8;
+  $userId = $_SESSION['id'];
 
   $queryCoutEvents = "SELECT COUNT(*) FROM event WHERE creator_id = ?";
   $stmtCountEvents = $conn->prepare($queryCoutEvents);
@@ -57,6 +57,18 @@
               </div>
             </form>
           </div>
+        </div>
+
+        <div class="container mb-3">
+          <?php
+            if (isset($_SESSION['success'])) {
+              echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+              unset($_SESSION['success']);
+            } elseif (isset($_SESSION['error'])) {
+              echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+              unset($_SESSION['error']);
+            }
+          ?>
         </div>
 
         <div class="row">

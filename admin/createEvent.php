@@ -20,15 +20,16 @@
         $tmp = $_FILES['eventBanner']['tmp_name'];
         $uploadDir = '../uploads/eventBanner/';
         $createdAt = date('Y-m-d H:i:s');
-        $registrationValue=0;
-        $availableSlot=0;
+        $registrationValue = 0;
+        $availableSlot = $participantNumber;
+        $creatorId = $_SESSION['id'];
 
         if ($_FILES['eventBanner']['error'] === UPLOAD_ERR_OK) {
             if (move_uploaded_file($tmp, $uploadDir . basename($eventBanner))) {
-                $query = "INSERT INTO event (event_name, start_date, end_date, start_time, end_time, location, description, participant_number, price, event_banner, created_at ,registration,available_slot)
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+                $query = "INSERT INTO event (event_name, start_date, end_date, start_time, end_time, location, description, participant_number, price, event_banner, created_at, registration, available_slot, creator_id)
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price, $eventBanner, $createdAt, $registrationValue, $availableSlot]);
+                $stmt->execute([$eventName, $startDate, $endDate, $startTime, $endTime, $location, $description, $participantNumber, $price, $eventBanner, $createdAt, $registrationValue, $availableSlot, $creatorId]);
 
                 $_SESSION['success'] = "Event created successfully!";
             } else {
@@ -60,10 +61,12 @@
                 <?php
                     if (isset($_SESSION['success'])) {
                         echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+                        header('Location: adminDashboard.php');
                         unset($_SESSION['success']);
                     } elseif (isset($_SESSION['error'])) {
                         echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
                         unset($_SESSION['error']);
+                        header('Location: adminDashboard.php');
                     }
                 ?>
                 <h1>Create Event</h1>
@@ -111,7 +114,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="eventBanner" class="form-label">Event Banner</label>
-                                <input type="file" class="form-control" id="eventBanner" name="eventBanner" accept="image/*" required>
+                                <input type="file" class="form-control" id="eventBanner" name="eventBanner" accept="image/*">
                             </div>
                             <button type="submit" class="btn btn-primary">Create Event</button>
                         </form>
