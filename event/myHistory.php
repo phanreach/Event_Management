@@ -2,7 +2,7 @@
 require '../config.php';
 
 if (!isset($_SESSION['id'])) {
-  header("Location: login.php");
+  header("Location: ../auth/login.php");
   exit();
 }
 

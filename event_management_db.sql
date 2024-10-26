@@ -43,7 +43,7 @@ CREATE TABLE `event` (
   `price` int NOT NULL,
   `event_banner` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `event`
@@ -80,7 +80,7 @@ CREATE TABLE `user` (
   `reset_expires` datetime DEFAULT NULL,
   `role` enum('user','admin') DEFAULT 'user',
   `profile_picture` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;;
 
 --
 -- Dumping data for table `user`
@@ -108,7 +108,7 @@ CREATE TABLE `user_event` (
   `user_id` int NOT NULL,
   `event_id` int NOT NULL,
   `created_at` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;;
 
 --
 -- Dumping data for table `user_event`

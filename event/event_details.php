@@ -62,7 +62,15 @@ $eventCreatorName = $stmt->fetchColumn();
 </head>
 <body>
     <div class="wrapper">
-        <?php include '../sidebar/userSidebar.php'; ?>
+
+        <?php
+        if ($accountType == 'admin') {
+            include '../sidebar/adminSidebar.php';
+        } else {
+            include '../sidebar/userSidebar.php';
+        }
+        ?>
+
         <div class="main">
             <nav class="navbar bg-body-secondary shadow-sm">
                 <div class="container-fluid">
