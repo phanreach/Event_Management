@@ -29,16 +29,16 @@ if (isset($_POST['confirm-register']) && isset($_POST['event_id'])) {
     }
 
     $created_at = date('Y-m-d H:i:s');
-    $stmt = $conn->prepare("INSERT INTO user_event (user_id, event_id, created_at) VALUES (?, ?, ?)");
-    $is_registered = $stmt->execute([$_SESSION['id'], $event_id, $created_at]);
+    $stmt = $conn->prepare("INSERT INTO user_event (user_id, event_id, register_amount, created_at) VALUES (?, ?, ?, ?)");
+    $is_registered = $stmt->execute([$_SESSION['id'], $event_id, $slot_amount, $created_at]);
 
     if ($is_registered) {
-        $stmt = $conn->prepare("UPDATE event SET registration = registration + ?, available_slot = available_slot - ? WHERE event_id = ?");
-        $is_updated = $stmt->execute([$slot_amount, $slot_amount, $event_id]);
+        $stmt = $conn->prepare("UPDATE event SET registration = registration + ? WHERE event_id = ?");
+        $is_updated = $stmt->execute([$slot_amount, $event_id]);
 
         if ($is_updated) {
             $_SESSION['success'] = "Registered successfully!";
-            header('Location: ../event/event_details.php?event_id=' . $event_id);
+            header('Location: ../event/myHistory.php');
         } else {
             $_SESSION['error'] = "Failed to update event registration.";
         }

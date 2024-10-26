@@ -8,7 +8,10 @@ if (isset($_GET['event_id'])) {
     die("No event ID provided.");
 }
 
-
+$queryAccountType = "SELECT role FROM user WHERE id = ?";
+$stmtAccountType = $conn->prepare($queryAccountType);
+$stmtAccountType->execute([$_SESSION['id']]);
+$accountType = $stmtAccountType->fetchColumn();
 
 $stmt = $conn->prepare("SELECT * FROM event WHERE event_id = ?");
 $stmt->execute([$event_id]);
@@ -94,12 +97,18 @@ $eventCreatorName = $stmt->fetchColumn();
             <div class="container my-5">
                 <div class="row justify-content-center">
                     <div class="col-6">
-                        <div class="card mb-3">
-                            <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
-                                        ? '../uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
-                                        : 'https://via.placeholder.com/400x200?text=Image+Not+Found' ?>" 
-                                class="card-img" alt="Event Image">
-                        </div>
+                        <?php if (isset($event['event_banner']) && !empty($event['event_banner'])): ?>
+                            <div class="card mb-3">
+                                <img src="<?= isset($event['event_banner']) && !empty($event['event_banner']) 
+                                            ? '../uploads/eventBanner/' . htmlspecialchars($event['event_banner']) 
+                                            : 'https://via.placeholder.com/400x200?text=Image+Not+Found' ?>" 
+                                    class="card-img" alt="Event Image">
+                            </div>
+                        <?php else: ?>
+                            <div class="card mb-3">
+                                <img src="https://via.placeholder.com/400x200?text=Image+Not+Found" class="card-img" alt="Event Image">
+                            </div>
+                        <?php endif; ?>
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title text-primary fw-bold mb-3"><?= htmlspecialchars($event['event_name']) ?></h3>
@@ -115,11 +124,28 @@ $eventCreatorName = $stmt->fetchColumn();
                             <div class="card-body">
                                 <p><i class="bi bi-calendar-check"></i> <?= date('M j, Y', strtotime($event['start_date'])) . ' - ' . date('M j, Y', strtotime($event['end_date'])); ?></p>
                                 <p><i class="bi bi-hourglass-top"></i> <?= date('ga', strtotime($event['start_time'])) . ' - ' . date('ga', strtotime($event['end_time'])); ?></p>
-                                <p><i class="bi bi-person"></i> <?= $available_slot ?> slots available</p>
-                                <button class="btn btn-primary" id="register-btn" data-bs-toggle="modal" data-bs-target="#register-event"
-                                    <?= $isAvailable ? 'disabled' : '' ?>>
-                                    Register
-                                </button>
+                                <p><i class="bi bi-people"></i> <?= $available_slot ?> slots available</p>
+                                <div class="row">
+                                    <?php if ($user_event) : ?>
+                                        <div class="col-12">
+                                            <p><i class="bi bi-person"></i> <?= htmlspecialchars($user_event['register_amount']) ?> My Register</p>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="col-3">
+                                        <button class="btn btn-primary" id="register-btn" data-bs-toggle="modal" data-bs-target="#register-event"
+                                            <?= $isAvailable ? 'disabled' : '' ?>>
+                                            Register
+                                        </button>
+                                    </div>
+                                    <div class="col-3">
+                                        <?php if ($user_event) : ?>
+                                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                                Cancel
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,6 +176,28 @@ $eventCreatorName = $stmt->fetchColumn();
             </div>
         </div>
     </div>
+
+    <!-- Modal for Cancel -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form method="POST" action="cancel.php">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="cancelModalLabel">Cancel Event</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to cancel this event?</p>
+                  <input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" name="confirm">Confirm</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../sidebar/script.js"></script>

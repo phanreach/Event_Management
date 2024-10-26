@@ -114,6 +114,7 @@ try {
                       <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal" data-event-id="<?= $event['event_id']; ?>">
                         Cancel
                       </button>
+                        <a href="event_details.php?event_id=<?= $event['event_id']; ?>" class="btn btn-primary">View Details</a>
                     </div>
                   </div>
                 </div>
